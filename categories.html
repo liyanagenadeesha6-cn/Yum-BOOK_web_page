@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categories – YumBook</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .cat-grid { padding: 3rem 0; }
+    .cat-card { border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: var(--transition); }
+    .cat-card:hover { transform: scale(1.03); }
+    .cat-card img { width: 100%; height: 240px; object-fit: cover; display: block; }
+    .cat-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,18,9,.8) 0%, transparent 60%);
+      display: flex; align-items: flex-end; padding: 1.4rem;
+      transition: var(--transition);
+    }
+    .cat-card:hover .cat-card-overlay { background: linear-gradient(to top, rgba(192,57,43,.85) 0%, transparent 60%); }
+    .cat-card-overlay h4 { color: #fff; font-size: 1.4rem; margin: 0; }
+    .cat-card-overlay p { color: rgba(255,255,255,.8); font-size: .82rem; margin: .2rem 0 0; }
+    .cat-card.selected { outline: 3px solid var(--clr-secondary); outline-offset: 3px; }
+
+    .results-section { background: #fff; padding: 3rem 0 5rem; border-top: 1px solid var(--clr-border); }
+    .results-title { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 1.5rem; }
+    .results-title span { color: var(--clr-primary); }
+
+    /* Modal (reuse from recipes) */
+    .modal-recipe-img { width: 100%; height: 260px; object-fit: cover; border-radius: var(--radius) var(--radius) 0 0; }
+    .ingredient-tag { display: inline-block; background: rgba(230,126,34,.1); color: var(--clr-secondary); border-radius: 30px; padding: .2rem .7rem; font-size: .8rem; margin: .2rem; }
+    .step-item { display: flex; gap: .8rem; margin-bottom: .9rem; align-items: flex-start; }
+    .step-num { min-width: 28px; height: 28px; background: var(--clr-primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; }
+    .step-item p { margin: 0; font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="Home.html">Yum<span>Book</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="recipes.html">Recipes</a></li>
+        <li class="nav-item"><a class="nav-link active" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <a href="add-recipe.html" class="btn-yum ms-3" style="font-size:.88rem;">+ Add Recipe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <span class="section-label">Browse by type</span>
+    <h1 class="fade-in">Recipe Categories</h1>
+    <p class="fade-in-2">Click a category to explore all matching recipes instantly.</p>
+  </div>
+</div>
+
+<!-- CATEGORY CARDS -->
+<section class="cat-grid">
+  <div class="container">
+    <div class="row g-4">
+
+      <div class="col-sm-6 col-lg-3 reveal">
+        <div class="cat-card" id="cat-Breakfast" onclick="selectCat('Breakfast',this)">
+          <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&q=80" alt="Breakfast" />
+          <div class="cat-card-overlay">
+            <div>
+              <h4>Breakfast</h4>
+              <p id="count-Breakfast">0 recipes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3 reveal">
+        <div class="cat-card" id="cat-Lunch" onclick="selectCat('Lunch',this)">
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80" alt="Lunch" />
+          <div class="cat-card-overlay">
+            <div>
+              <h4>Lunch</h4>
+              <p id="count-Lunch">0 recipes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3 reveal">
+        <div class="cat-card" id="cat-Dinner" onclick="selectCat('Dinner',this)">
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Dinner" />
+          <div class="cat-card-overlay">
+            <div>
+              <h4>Dinner</h4>
+              <p id="count-Dinner">0 recipes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3 reveal">
+        <div class="cat-card" id="cat-Desserts" onclick="selectCat('Desserts',this)">
+          <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=80" alt="Desserts" />
+          <div class="cat-card-overlay">
+            <div>
+              <h4>Desserts</h4>
+              <p id="count-Desserts">0 recipes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FILTERED RESULTS -->
+<section class="results-section" id="resultsSection" style="display:none;">
+  <div class="container">
+    <h2 class="results-title">Results for: <span id="catLabel"></span></h2>
+    <div class="row g-4" id="filteredGrid"></div>
+  </div>
+</section>
+
+<!-- RECIPE MODAL -->
+<div class="modal fade" id="recipeModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" style="border-radius:var(--radius);border:none;overflow:hidden;">
+      <div class="modal-header" style="border:none;position:absolute;top:.8rem;right:.8rem;z-index:10;padding:0;">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" style="background-color:#fff;border-radius:50%;padding:.5rem;opacity:1;"></button>
+      </div>
+      <div class="modal-body p-0">
+        <img id="modalImg" class="modal-recipe-img" src="" alt="" />
+        <div class="p-4">
+          <span id="modalBadge" class="recipe-badge"></span>
+          <h3 id="modalTitle" class="mb-2" style="font-family:var(--font-display);"></h3>
+          <p id="modalDesc" style="color:var(--clr-muted);font-size:.92rem;margin-bottom:1.5rem;"></p>
+          <div class="d-flex gap-4 mb-3">
+            <span style="font-size:.85rem;color:var(--clr-muted);"><i class="bi bi-clock me-1"></i><span id="modalTime"></span></span>
+            <span style="font-size:.85rem;color:var(--clr-muted);"><i class="bi bi-people me-1"></i><span id="modalServings"></span> servings</span>
+          </div>
+          <h5 style="font-family:var(--font-display);margin-bottom:.8rem;">Ingredients</h5>
+          <div id="modalIngredients" class="mb-4"></div>
+          <h5 style="font-family:var(--font-display);margin-bottom:.8rem;">Instructions</h5>
+          <div id="modalSteps"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-brand mb-3">Yum<span>Book</span></div>
+        <p style="font-size:.9rem;">Your digital recipe diary.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Pages</h6>
+        <a href="index.html">Home</a><a href="recipes.html">Recipes</a><a href="categories.html">Categories</a><a href="add-recipe.html">Add Recipe</a><a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <hr />
+    <p class="footer-copy">&copy; 2026 YumBook · B.L.Chamodi Nadeesha · ASB/2023/163</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="main.js"></script>
+<script>
+  let allRecipes = [];
+  let currentSelected = null;
+
+  function updateCounts() {
+    ['Breakfast','Lunch','Dinner','Desserts'].forEach(cat => {
+      const c = allRecipes.filter(r => r.cat === cat).length;
+      document.getElementById(`count-${cat}`).textContent = `${c} recipe${c!==1?'s':''}`;
+    });
+  }
+
+  function selectCat(cat, el) {
+    // Deselect previous
+    if (currentSelected) currentSelected.classList.remove('selected');
+    el.classList.add('selected');
+    currentSelected = el;
+
+    const filtered = allRecipes.filter(r => r.cat === cat);
+    document.getElementById('catLabel').textContent = cat;
+    const section = document.getElementById('resultsSection');
+    section.style.display = 'block';
+    // Smooth scroll
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const grid = document.getElementById('filteredGrid');
+    grid.innerHTML = '';
+    filtered.forEach(r => {
+      const col = document.createElement('div');
+      col.className = 'col-sm-6 col-lg-3 reveal';
+      col.innerHTML = `
+        <div class="recipe-card" onclick="openModal(${r.id})">
+          <img class="recipe-card-img" src="${r.img}" alt="${r.title}" loading="lazy"/>
+          <div class="recipe-card-body">
+            <span class="recipe-badge">${r.cat}</span>
+            <div class="recipe-card-title">${r.title}</div>
+            <p style="font-size:.82rem;color:var(--clr-muted);margin:.4rem 0 .6rem;">${r.desc.substring(0,70)}…</p>
+            <div class="recipe-meta"><span><i class="bi bi-clock"></i>${r.time}</span><span><i class="bi bi-people"></i>${r.servings}</span></div>
+          </div>
+        </div>`;
+      grid.appendChild(col);
+    });
+    initScrollReveal();
+  }
+
+  function openModal(id) {
+    const r = allRecipes.find(x => x.id === id);
+    if (!r) return;
+    document.getElementById('modalImg').src = r.img;
+    document.getElementById('modalBadge').textContent = r.cat;
+    document.getElementById('modalTitle').textContent = r.title;
+    document.getElementById('modalDesc').textContent = r.desc;
+    document.getElementById('modalTime').textContent = r.time;
+    document.getElementById('modalServings').textContent = r.servings;
+    document.getElementById('modalIngredients').innerHTML = r.ingredients.map(i=>`<span class="ingredient-tag">${i}</span>`).join('');
+    document.getElementById('modalSteps').innerHTML = r.steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><p>${s}</p></div>`).join('');
+    new bootstrap.Modal(document.getElementById('recipeModal')).show();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const stored = JSON.parse(localStorage.getItem('yumbook_recipes') || '[]');
+    allRecipes = [...RECIPES, ...stored];
+    updateCounts();
+  });
+</script>
+</body>
+</html>

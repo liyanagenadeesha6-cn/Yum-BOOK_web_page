@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipes – YumBook</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .search-bar-wrap {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.5rem 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2.5rem;
+    }
+    .search-input-wrap { position: relative; }
+    .search-input-wrap .bi { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--clr-muted); font-size: 1.1rem; }
+    .search-input-wrap input { padding-left: 2.8rem; }
+    #noResults { display: none; text-align: center; padding: 4rem 0; color: var(--clr-muted); }
+    #noResults i { font-size: 3rem; display: block; margin-bottom: 1rem; }
+
+    /* Modal */
+    .modal-recipe-img { width: 100%; height: 260px; object-fit: cover; border-radius: var(--radius) var(--radius) 0 0; }
+    .ingredient-tag { display: inline-block; background: rgba(230,126,34,.1); color: var(--clr-secondary); border-radius: 30px; padding: .2rem .7rem; font-size: .8rem; margin: .2rem; }
+    .step-item { display: flex; gap: .8rem; margin-bottom: .9rem; align-items: flex-start; }
+    .step-num { min-width: 28px; height: 28px; background: var(--clr-primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; }
+    .step-item p { margin: 0; font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Yum<span>Book</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="recipes.html">Recipes</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <a href="add-recipe.html" class="btn-yum ms-3" style="font-size:.88rem;">+ Add Recipe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <span class="section-label">Our collection</span>
+    <h1 class="fade-in">All Recipes</h1>
+    <p class="fade-in-2">Search, filter, and discover your next favourite meal.</p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<section style="padding:3rem 0 5rem;">
+  <div class="container">
+
+    <!-- Search & Filter -->
+    <div class="search-bar-wrap reveal">
+      <div class="row g-3 align-items-end">
+        <div class="col-lg-7">
+          <label class="form-label">Search Recipes</label>
+          <div class="search-input-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" id="searchInput" class="form-control" placeholder="e.g. pasta, avocado, chocolate…" />
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <label class="form-label">Filter by Category</label>
+          <select id="catFilter" class="form-select">
+            <option value="All">All Categories</option>
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Dinner</option>
+            <option>Desserts</option>
+          </select>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn-yum w-100" onclick="resetFilters()">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results count -->
+    <p id="resultCount" style="color:var(--clr-muted);font-size:.9rem;margin-bottom:1.5rem;"></p>
+
+    <!-- Recipe Grid -->
+    <div class="row g-4" id="recipeGrid"></div>
+
+    <!-- No results -->
+    <div id="noResults">
+      <i class="bi bi-search"></i>
+      <h5>No recipes found</h5>
+      <p>Try a different keyword or category.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RECIPE DETAIL MODAL -->
+<div class="modal fade" id="recipeModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" style="border-radius:var(--radius);border:none;overflow:hidden;">
+      <div class="modal-header" style="border:none;position:absolute;top:.8rem;right:.8rem;z-index:10;padding:0;">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" style="background-color:#fff;border-radius:50%;padding:.5rem;opacity:1;"></button>
+      </div>
+      <div class="modal-body p-0">
+        <img id="modalImg" class="modal-recipe-img" src="" alt="" />
+        <div class="p-4">
+          <span id="modalBadge" class="recipe-badge"></span>
+          <h3 id="modalTitle" class="mb-2" style="font-family:var(--font-display);"></h3>
+          <p id="modalDesc" style="color:var(--clr-muted);font-size:.92rem;margin-bottom:1.5rem;"></p>
+          <div class="d-flex gap-4 mb-3">
+            <span style="font-size:.85rem;color:var(--clr-muted);"><i class="bi bi-clock me-1"></i><span id="modalTime"></span></span>
+            <span style="font-size:.85rem;color:var(--clr-muted);"><i class="bi bi-people me-1"></i><span id="modalServings"></span> servings</span>
+          </div>
+          <h5 style="font-family:var(--font-display);margin-bottom:.8rem;">Ingredients</h5>
+          <div id="modalIngredients" class="mb-4"></div>
+          <h5 style="font-family:var(--font-display);margin-bottom:.8rem;">Instructions</h5>
+          <div id="modalSteps"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-brand mb-3">Yum<span>Book</span></div>
+        <p style="font-size:.9rem;max-width:280px;">Your digital recipe diary. Discover, cook, and share amazing recipes every day.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Pages</h6>
+        <a href="index.html">Home</a><a href="recipes.html">Recipes</a><a href="categories.html">Categories</a><a href="add-recipe.html">Add Recipe</a><a href="contact.html">Contact</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Categories</h6>
+        <a href="categories.html">Breakfast</a><a href="categories.html">Lunch</a><a href="categories.html">Dinner</a><a href="categories.html">Desserts</a>
+      </div>
+    </div>
+    <hr />
+    <p class="footer-copy">&copy; 2026 YumBook · B.L.Chamodi Nadeesha · ASB/2023/163</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+  let allRecipes = [];
+
+  function renderCards(list) {
+    const grid = document.getElementById('recipeGrid');
+    const noRes = document.getElementById('noResults');
+    const count = document.getElementById('resultCount');
+    grid.innerHTML = '';
+    if (list.length === 0) { noRes.style.display = 'block'; count.textContent = ''; return; }
+    noRes.style.display = 'none';
+    count.textContent = `Showing ${list.length} recipe${list.length!==1?'s':''}`;
+    list.forEach((r, i) => {
+      const col = document.createElement('div');
+      col.className = 'col-sm-6 col-lg-3 reveal';
+      col.style.animationDelay = `${i*0.07}s`;
+      col.innerHTML = `
+        <div class="recipe-card" onclick="openModal(${r.id})">
+          <img class="recipe-card-img" src="${r.img}" alt="${r.title}" loading="lazy" />
+          <div class="recipe-card-body">
+            <span class="recipe-badge">${r.cat}</span>
+            <div class="recipe-card-title">${r.title}</div>
+            <p style="font-size:.82rem;color:var(--clr-muted);margin:.4rem 0 .6rem;">${r.desc.substring(0,70)}…</p>
+            <div class="recipe-meta">
+              <span><i class="bi bi-clock"></i>${r.time}</span>
+              <span><i class="bi bi-people"></i>${r.servings}</span>
+            </div>
+          </div>
+        </div>`;
+      grid.appendChild(col);
+    });
+    initScrollReveal();
+  }
+
+  function filterRecipes() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const cat = document.getElementById('catFilter').value;
+    const filtered = allRecipes.filter(r =>
+      (cat === 'All' || r.cat === cat) &&
+      (r.title.toLowerCase().includes(q) || r.cat.toLowerCase().includes(q))
+    );
+    renderCards(filtered);
+  }
+
+  function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('catFilter').value = 'All';
+    renderCards(allRecipes);
+  }
+
+  function openModal(id) {
+    const r = allRecipes.find(x => x.id === id);
+    if (!r) return;
+    document.getElementById('modalImg').src = r.img;
+    document.getElementById('modalImg').alt = r.title;
+    document.getElementById('modalBadge').textContent = r.cat;
+    document.getElementById('modalTitle').textContent = r.title;
+    document.getElementById('modalDesc').textContent = r.desc;
+    document.getElementById('modalTime').textContent = r.time;
+    document.getElementById('modalServings').textContent = r.servings;
+    document.getElementById('modalIngredients').innerHTML = r.ingredients.map(i => `<span class="ingredient-tag">${i}</span>`).join('');
+    document.getElementById('modalSteps').innerHTML = r.steps.map((s,i) => `
+      <div class="step-item">
+        <div class="step-num">${i+1}</div>
+        <p>${s}</p>
+      </div>`).join('');
+    new bootstrap.Modal(document.getElementById('recipeModal')).show();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Load stored recipes + defaults
+    const stored = JSON.parse(localStorage.getItem('yumbook_recipes') || '[]');
+    allRecipes = [...RECIPES, ...stored];
+    renderCards(allRecipes);
+    document.getElementById('searchInput').addEventListener('input', filterRecipes);
+    document.getElementById('catFilter').addEventListener('change', filterRecipes);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Contact – YumBook</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .contact-form-card{background:#fff;border-radius:var(--radius);box-shadow:0 6px 30px var(--shadow);padding:2.5rem;border:1px solid var(--light-brown);}
+    .contact-form-card h3{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--brown);margin-bottom:.4rem;}
+    .contact-form-card p{color:var(--muted);font-size:.88rem;margin-bottom:1.8rem;}
+    .char-count{font-size:.75rem;color:var(--muted);text-align:right;margin-top:.25rem;}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="Home.html">Yum<span>Book</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto gap-1 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="recipes.html">Recipes</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+        <li class="nav-item ms-2"><a class="nav-link nav-cta" href="add-recipe.html">+ Add Recipe</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <span class="hero-tag fade-in">Get in touch</span>
+    <h1 class="fade-in-2">Contact Us</h1>
+    <p class="fade-in-3">We'd love to hear your questions, suggestions, and recipe ideas!</p>
+  </div>
+</div>
+
+<!-- CONTACT SECTION -->
+<section style="padding:4rem 0 5rem;background:var(--cream);">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+
+      <!-- CONTACT FORM -->
+      <div class="col-lg-7">
+
+        <!-- Success banner -->
+        <div id="successBanner" style="display:none;" class="mb-4">
+          <div class="banner-success">
+            <span class="banner-icon">✅</span>
+            <div><strong>Message sent!</strong><br><span style="font-size:.86rem;opacity:.9;">Thank you for reaching out — we'll reply within 24 hours.</span></div>
+          </div>
+        </div>
+
+        <div class="contact-form-card reveal">
+          <h3>Send a Message</h3>
+          <p>We typically respond within 24 hours on weekdays.</p>
+
+          <!-- Name + Email -->
+          <div class="row g-3 mb-3">
+            <div class="col-sm-6">
+              <label class="form-label">Your Name <span style="color:var(--terracotta);">*</span></label>
+              <input type="text" id="cName" class="form-control" placeholder="Chamodi Nadeesha"/>
+              <div class="invalid-feedback">Please enter your full name.</div>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Email Address <span style="color:var(--terracotta);">*</span></label>
+              <input type="email" id="cEmail" class="form-control" placeholder="hello@example.com"/>
+              <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+          </div>
+
+          <!-- Subject -->
+          <div class="mb-3">
+            <label class="form-label">Subject <span style="color:var(--terracotta);">*</span></label>
+            <select id="cSubject" class="form-select">
+              <option value="">Choose a subject…</option>
+              <option>General Question</option>
+              <option>Recipe Suggestion</option>
+              <option>Report an Issue</option>
+              <option>Partnership Inquiry</option>
+              <option>Other</option>
+            </select>
+            <div class="invalid-feedback">Please select a subject.</div>
+          </div>
+
+          <!-- Message -->
+          <div class="mb-4">
+            <label class="form-label">Message <span style="color:var(--terracotta);">*</span></label>
+            <textarea id="cMsg" class="form-control" rows="5" maxlength="500"
+              placeholder="Write your message here…" oninput="document.getElementById('charCount').textContent=this.value.length"></textarea>
+            <div class="char-count"><span id="charCount">0</span> / 500</div>
+            <div class="invalid-feedback">Please enter a message (min 10 characters).</div>
+          </div>
+
+          <button class="btn-terra w-100" type="button" onclick="submitContact()" style="border-radius:8px;padding:.8rem;font-size:.9rem;">
+            <i class="bi bi-send me-2"></i>Send Message →
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTACT INFO -->
+      <div class="col-lg-5">
+        <div class="contact-info-box reveal">
+          <h3>Contact Information</h3>
+          <p style="color:rgba(255,255,255,.65);font-size:.88rem;margin-bottom:2rem;">Reach out through any of these channels and we'll get back to you promptly.</p>
+
+          <div class="cinfo-item">
+            <div class="cinfo-icon"><i class="bi bi-geo-alt-fill"></i></div>
+            <div>
+              <span class="cinfo-label">Location</span>
+              <span class="cinfo-val">Yum Book Hotel<br>Rajarata University of Sri Lanka<br>Mihintale, Anuradhapura</span>
+            </div>
+          </div>
+
+          <div class="cinfo-item">
+            <div class="cinfo-icon"><i class="bi bi-envelope-fill"></i></div>
+            <div>
+              <span class="cinfo-label">Email</span>
+              <span class="cinfo-val">yumbook@rusl.ac.lk</span>
+            </div>
+          </div>
+
+          <div class="cinfo-item">
+            <div class="cinfo-icon"><i class="bi bi-telephone-fill"></i></div>
+            <div>
+              <span class="cinfo-label">Phone</span>
+              <span class="cinfo-val">+94 72 1879408</span>
+            </div>
+          </div>
+
+          <div class="cinfo-item">
+            <div class="cinfo-icon"><i class="bi bi-clock-fill"></i></div>
+            <div>
+              <span class="cinfo-label">Response Hours</span>
+              <span class="cinfo-val">Mon – Fri · 9am – 5pm<br>Weekends · 10am – 3pm</span>
+            </div>
+          </div>
+
+          <hr style="border-color:rgba(255,255,255,.12);margin:1.5rem 0;"/>
+
+          <p style="color:rgba(255,255,255,.55);font-size:.78rem;margin-bottom:.8rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;">Follow Us</p>
+          <div class="d-flex gap-2">
+            <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="social-btn"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section style="padding:0 0 5rem;background:#856161;">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="section-eyebrow">Common questions</span>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="accordion" id="faqAcc">
+          <div class="accordion-item reveal">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">How do I add my own recipe?</button></h2>
+            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+              <div class="accordion-body" style="color:var(--muted);font-size:.9rem;">Click <strong>+ Add Recipe</strong> in the navigation bar, fill in all the required fields, and click "Publish Recipe". Your recipe will appear instantly on the Recipes page.</div>
+            </div>
+          </div>
+          <div class="accordion-item reveal">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">Is YumBook completely free?</button></h2>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+              <div class="accordion-body" style="color:var(--muted);font-size:.9rem;">Yes! YumBook is 100% free to use. Browse recipes, search, filter by category, and add your own creations — all without any subscription or payment.</div>
+            </div>
+          </div>
+          <div class="accordion-item reveal">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">Does it work on mobile?</button></h2>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+              <div class="accordion-body" style="color:var(--muted);font-size:.9rem;">Absolutely. YumBook is fully responsive and built with Bootstrap — it works beautifully on all screen sizes including phones, tablets, and desktops.</div>
+            </div>
+          </div>
+          <div class="accordion-item reveal">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">How do I report a bug or suggest a feature?</button></h2>
+            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+              <div class="accordion-body" style="color:var(--muted);font-size:.9rem;">Use the contact form above, select "Report an Issue" or "Partnership Inquiry" as your subject, and describe your issue or idea clearly. We review all messages promptly.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-brand mb-2">Yum<span>Book</span></div>
+        <p class="footer-desc">Your digital recipe diary. Discover, cook, and share amazing recipes every day.</p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2"><h6>Navigation</h6><a href="index.html">Home</a><a href="recipes.html">Recipes</a><a href="categories.html">Categories</a><a href="add-recipe.html">Add Recipe</a><a href="contact.html">Contact</a></div>
+      <div class="col-6 col-lg-2"><h6>Categories</h6><a href="categories.html">Breakfast</a><a href="categories.html">Lunch</a><a href="categories.html">Dinner</a><a href="categories.html">Desserts</a></div>
+      <div class="col-lg-4"><h6>About</h6><p style="font-size:.84rem;color:rgba(255,255,255,.4);">B.L.Chamodi Nadeesha · ASB/2023/163 · Index 6279<br>Department of Computing<br>Rajarata University of Sri Lanka<br>21 February 2026</p></div>
+    </div>
+    <hr/>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <p class="footer-copy mb-0">&copy; 2026 YumBook · B.L.Chamodi Nadeesha · ASB/2023/163</p>
+      <p class="footer-copy mb-0">Department of Computing · Rajarata University of Sri Lanka</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="main.js"></script>
+<script>
+function setErr(id, show) {
+  const el = document.getElementById(id);
+  show ? el.classList.add('is-invalid') : el.classList.remove('is-invalid');
+  return !show;
+}
+
+function submitContact() {
+  let ok = true;
+  const name    = document.getElementById('cName').value.trim();
+  const email   = document.getElementById('cEmail').value.trim();
+  const subject = document.getElementById('cSubject').value;
+  const msg     = document.getElementById('cMsg').value.trim();
+
+  if (!setErr('cName',    name.length < 2)) ok = false;
+  if (!setErr('cEmail',   !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) ok = false;
+  if (!setErr('cSubject', !subject)) ok = false;
+  if (!setErr('cMsg',     msg.length < 10)) ok = false;
+
+  if (!ok) { showToast('Please fix the highlighted fields.', 'error'); return; }
+
+  // Reset form fields
+  ['cName','cEmail','cMsg'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('cSubject').value = '';
+  document.getElementById('charCount').textContent = '0';
+
+  // Show success
+  document.getElementById('successBanner').style.display = 'block';
+  document.getElementById('successBanner').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  showToast('Message sent successfully! ✅', 'success');
+}
+</script>
+</body>
+</html>

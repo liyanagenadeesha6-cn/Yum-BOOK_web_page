@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YumBook – Your Digital Recipe Diary</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ---- Hero ---- */
+    .hero {
+      min-height: 90vh;
+      background: linear-gradient(135deg, #1a9080 0%, #e5f4f2 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(34, 106, 230, 0.18) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(41, 36, 179, 0.1) 0%, transparent 70%);
+      bottom: -80px; left: -80px;
+      border-radius: 50%;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(192,57,43,.1);
+      color: var(--clr-primary);
+      border-radius: 50px;
+      padding: .3rem 1rem;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 1.2rem; }
+    .hero h1 em { color: var(--clr-primary); font-style: italic; }
+    .hero-img-wrap { position: relative; }
+    .hero-img-wrap img { border-radius: 24px; box-shadow: 0 24px 64px rgba(26,18,9,.2); }
+    .hero-badge {
+      position: absolute;
+      background: #f1f5f4;
+      border-radius: 14px;
+      padding: .8rem 1.1rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .82rem;
+      font-weight: 600;
+    }
+    .hero-badge.b1 { bottom: 30px; left: -20px; }
+    .hero-badge.b2 { top: 30px; right: -20px; }
+    .hero-badge .icon-circle {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(230,126,34,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      color: var(--clr-secondary);
+    }
+
+    /* ---- Stats ---- */
+    .stats-bar { background: var(--clr-primary); color: #fff; padding: 1.8rem 0; }
+    .stat-item { text-align: center; }
+    .stat-item .num { font-family: var(--font-display); font-size: 2rem; font-weight: 700; display: block; }
+    .stat-item .lbl { font-size: .82rem; opacity: .8; }
+
+    /* ---- Featured ---- */
+    .featured-section { padding: 5rem 0; }
+
+    /* ---- About ---- */
+    .about-section { padding: 5rem 0; background: #a8e7dd; }
+    .about-feature { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start; }
+    .about-feature .icon-box {
+      width: 48px; height: 48px; min-width: 48px;
+      background: rgba(230,126,34,.12);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: var(--clr-secondary);
+    }
+    .about-feature h5 { font-size: 1rem; font-weight: 600; margin-bottom: .2rem; }
+    .about-feature p  { font-size: .88rem; color: var(--clr-muted); margin: 0; }
+
+    /* ---- CTA ---- */
+    .cta-section { background: linear-gradient(135deg, var(--clr-primary) 0%, #922b21 100%); padding: 5rem 0; color: #141717; text-align: center; }
+    .cta-section h2 { font-size: clamp(1.8rem,4vw,2.8rem); margin-bottom: 1rem; }
+    .cta-section p { opacity: .85; margin-bottom: 2rem; }
+    .btn-white { background: #fff; color: var(--clr-primary); border-radius: 50px; padding: .7rem 2rem; font-weight: 700; transition: var(--transition); display: inline-block; }
+    .btn-white:hover { background: #fceee0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="Home.html"><em>Yum<span>BOOK</span></em></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link active" href="Home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="recipes.html">Recipes</a></li>
+        <l class="nav-item"><a class="nav-link" href="categories.html">Categories</a></l>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <a href="add-recipe.html" class="btn-yum ms-3" style="font-size:.88rem;">+ Add Recipe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="hero-tag fade-in">✨ Your Digital Recipe Diary</span>
+        <h1 class="fade-in-2">Cook with <em>passion</em>, share with love</h1>
+        <h3 class="fade-in-3"><b><em>Create. Cook. Celebrate.</em></b></h3>
+        <p class="fade-in-4" style="color:var(--clr-muted);font-size:1.05rem;max-width:460px;margin-bottom:2rem;">
+          Discover thousands of hand-picked recipes, organize your favorites, and share your own culinary creations — all in one beautiful place.
+        </p>
+        <div class="d-flex gap-3 flex-wrap fade-in-4">
+          <a href="recipes.html" class="btn-yum">Explore Recipes</a>
+          <a href="add-recipe.html" class="btn-yum-outline">Share Yours</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-img-wrap fade-in-3">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80" alt="Cooking" />
+          <div class="hero-badge b1">
+            <div class="icon-circle"><i class="bi bi-clock"></i></div>
+            <div><div style="font-size:.7rem;color:var(--clr-muted);">Quick & Easy</div>Under 30 min</div>
+          </div>
+          <div class="hero-badge b2">
+            <div class="icon-circle"><i class="bi bi-star-fill"></i></div>
+            <div><div style="font-size:.7rem;color:var(--clr-muted);">Top Rated</div>4.9 / 5 stars</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="row text-center g-3">
+      <div class="col-6 col-md-3 stat-item"><span class="num">200+</span><span class="lbl">Recipes</span></div>
+      <div class="col-6 col-md-3 stat-item"><span class="num">15+</span><span class="lbl">Categories</span></div>
+      <div class="col-6 col-md-3 stat-item"><span class="num">5k+</span><span class="lbl">Happy Cooks</span></div>
+      <div class="col-6 col-md-3 stat-item"><span class="num">100%</span><span class="lbl">Free to Use</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEATURED RECIPES (Carousel) ===== -->
+<section class="featured-section">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="section-label">Hand-picked for you</span>
+      <h2 class="section-title">Featured Recipes</h2>
+      <p class="section-sub">A curated selection of community favourites — from 10-minute breakfasts to weekend dinner showstoppers.</p>
+    </div>
+
+    <!-- Bootstrap Carousel -->
+    <div id="featuredCarousel" class="carousel slide reveal" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="0" class="active" style="background:var(--clr-primary);"></button>
+        <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="1" style="background:var(--clr-primary);"></button>
+      </div>
+      <div class="carousel-inner" id="carouselInner"></div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev" style="width:3rem;">
+        <span style="background:var(--clr-primary);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-chevron-left text-white"></i></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next" style="width:3rem;">
+        <span style="background:var(--clr-primary);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-chevron-right text-white"></i></span>
+      </button>
+    </div>
+
+    <div class="text-center mt-4 reveal">
+      <a href="recipes.html" class="btn-yum-outline">View All Recipes <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section class="about-sec">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 reveal">
+        <div style="position:relative;">
+          <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=720&q=80" alt="About YumBook" style="border-radius:20px;box-shadow:0 20px 56px var(--shadow);width:100%;"/>
+          <!-- Floating card -->
+          <div style="position:absolute;bottom:-18px;right:-14px;background:#fff;border-radius:12px;padding:1rem 1.3rem;box-shadow:0 8px 28px rgba(0,0,0,.14);border:1px solid var(--light-brown);">
+            <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--terracotta);line-height:1;">4.9★</div>
+            <div style="font-size:.75rem;color:var(--muted);">Average Rating</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 reveal">
+        <span class="section-eyebrow">Why YumBook?</span>
+        <h2 class="section-title mb-3">Everything you need in<br>one kitchen companion</h2>
+        <p style="color:var(--muted);margin-bottom:2rem;font-size:.93rem;">YumBook brings together a curated recipe library and a personal recipe manager — so you can explore, save, and create without switching apps.</p>
+        <div class="about-feature">
+          <div class="af-icon"><i class="bi bi-search"></i></div>
+          <div class="af-text"><h5>Instant Recipe Search</h5><p>Find exactly what you want in seconds with smart search and category filtering.</p></div>
+        </div>
+        <div class="about-feature">
+          <div class="af-icon"><i class="bi bi-pencil-square"></i></div>
+          <div class="af-text"><h5>Add Your Own Recipes</h5><p>Submit your creations with ingredients, step-by-step instructions, and images.</p></div>
+        </div>
+        <div class="about-feature">
+          <div class="af-icon"><i class="bi bi-phone"></i></div>
+          <div class="af-text"><h5>Works on Any Device</h5><p>Fully responsive — cook from your phone, tablet, or desktop without missing a step.</p></div>
+        </div>
+        <a href="recipes.html" class="btn-gold mt-1" style="display:inline-block;">Start Exploring</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section reveal">
+  <div class="container">
+    <h2>Ready to share your recipe?</h2>
+    <p>Join thousands of food lovers who have already added their favourite dishes to YumBook.</p>
+    <a href="add-recipe.html" class="btn-white">Add Your Recipe Now</a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-brand mb-3">Yum<span>Book</span></div>
+        <p style="font-size:.9rem;max-width:280px;">Your digital recipe diary. Discover, cook, and share amazing recipes every day.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Pages</h6>
+        <a href="index.html">Home</a>
+        <a href="recipes.html">Recipes</a>
+        <a href="categories.html">Categories</a>
+        <a href="add-recipe.html">Add Recipe</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Categories</h6>
+        <a href="categories.html">Breakfast</a>
+        <a href="categories.html">Lunch</a>
+        <a href="categories.html">Dinner</a>
+        <a href="categories.html">Desserts</a>
+      </div>
+      <div class="col-lg-4">
+        <h6>Stay Connected</h6>
+        <p style="font-size:.88rem;margin-bottom:1rem;">Follow us for daily recipe inspiration and cooking tips.</p>
+        <div class="d-flex gap-3">
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);font-size:1.1rem;"><i class="bi bi-instagram"></i></a>
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);font-size:1.1rem;"><i class="bi bi-facebook"></i></a>
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);font-size:1.1rem;"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="d-flex flex-wrap justify-content-between align-items-center">
+      <p class="footer-copy mb-0">&copy; 2026 YumBook · B.L.Chamodi Nadeesha · ASB/2023/163</p>
+      <p class="footer-copy mb-0">Department of Computing · Rajarata University of Sri Lanka</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="main.js"></script>
+<script>
+  // Build carousel from recipe data
+  document.addEventListener('DOMContentLoaded', () => {
+    const inner = document.getElementById('carouselInner');
+    // Show 4 recipes per slide (2 slides)
+    const chunks = [[RECIPES[0],RECIPES[4],RECIPES[2],RECIPES[6]], [RECIPES[1],RECIPES[3],RECIPES[5],RECIPES[7]]];
+    chunks.forEach((chunk, i) => {
+      const item = document.createElement('div');
+      item.className = `carousel-item ${i===0?'active':''}`;
+      item.innerHTML = `<div class="row g-4 px-2">${chunk.map(r=>`
+        <div class="col-6 col-lg-3">
+          <div class="recipe-card" onclick="window.location='recipes.html'">
+            <img class="recipe-card-img" src="${r.img}" alt="${r.title}" loading="lazy"/>
+            <div class="recipe-card-body">
+              <span class="recipe-badge">${r.cat}</span>
+              <div class="recipe-card-title">${r.title}</div>
+              <div class="recipe-meta">
+                <span><i class="bi bi-clock"></i>${r.time}</span>
+                <span><i class="bi bi-people"></i>${r.servings}</span>
+              </div>
+            </div>
+          </div>
+        </div>`).join('')}</div>`;
+      inner.appendChild(item);
+    });
+  });
+</script>
+</body>
+</html>

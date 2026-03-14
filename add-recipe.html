@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Recipe – YumBook</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .form-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 2.5rem;
+      border: 1px solid var(--clr-border);
+    }
+    .form-section-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      padding-bottom: .6rem;
+      border-bottom: 2px solid var(--clr-border);
+      color: var(--clr-dark);
+    }
+    .tag-input-wrap { display: flex; gap: .5rem; }
+    .tag-input-wrap input { flex: 1; }
+    .tags-list { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; min-height: 32px; }
+    .tag-item {
+      background: rgba(192,57,43,.1);
+      color: var(--clr-primary);
+      border-radius: 30px;
+      padding: .2rem .8rem;
+      font-size: .82rem;
+      font-weight: 500;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .tag-item button { background: none; border: none; color: var(--clr-primary); padding: 0; cursor: pointer; font-size: .8rem; line-height: 1; }
+
+    .step-row { display: flex; gap: .7rem; align-items: flex-start; margin-bottom: .6rem; }
+    .step-num-badge {
+      min-width: 30px; height: 30px;
+      background: var(--clr-primary); color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 700; margin-top: .4rem;
+    }
+    .step-row textarea { flex: 1; resize: none; min-height: 60px; }
+    .step-row .remove-btn { background: none; border: none; color: var(--clr-muted); cursor: pointer; font-size: 1.1rem; margin-top: .4rem; transition: color .2s; }
+    .step-row .remove-btn:hover { color: var(--clr-primary); }
+
+    .success-box {
+      display: none;
+      background: linear-gradient(135deg, #27ae60, #1e8449);
+      color: #fff;
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+    }
+    .success-box i { font-size: 3rem; display: block; margin-bottom: 1rem; }
+    .success-box h3 { font-family: var(--font-display); margin-bottom: .5rem; }
+    .tips-card {
+      background: linear-gradient(135deg, #fff8f0, #fde8d8);
+      border-radius: 16px;
+      padding: 1.8rem;
+      border: 1px solid rgba(230,126,34,.2);
+      position: sticky; top: 90px;
+    }
+    .tip-item { display: flex; gap: .7rem; margin-bottom: 1rem; font-size: .88rem; }
+    .tip-item i { color: var(--clr-secondary); font-size: 1rem; margin-top: .15rem; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="Home.html">Yum<span>Book</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="recipes.html">Recipes</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <a href="add-recipe.html" class="btn-yum ms-3" style="font-size:.88rem;">+ Add Recipe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <span class="section-label">Share your creation</span>
+    <h1 class="fade-in">Add Your Recipe</h1>
+    <p class="fade-in-2">Fill in the form below to add your recipe to the YumBook collection.</p>
+  </div>
+</div>
+
+<!-- FORM SECTION -->
+<section style="padding:3rem 0 5rem;">
+  <div class="container">
+    <div class="row g-5 justify-content-center">
+
+      <!-- Form -->
+      <div class="col-lg-8">
+
+        <!-- Success box -->
+        <div class="success-box" id="successBox">
+          <i class="bi bi-check-circle-fill"></i>
+          <h3>Recipe Added Successfully! 🎉</h3>
+          <p style="opacity:.9;margin-bottom:1.5rem;">Your recipe is now live in the YumBook collection.</p>
+          <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="recipes.html" class="btn-white" style="background:#fff;color:#27ae60;border-radius:50px;padding:.6rem 1.5rem;font-weight:600;">View All Recipes</a>
+            <button onclick="resetForm()" style="background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.6);border-radius:50px;padding:.6rem 1.5rem;font-weight:600;cursor:pointer;">Add Another</button>
+          </div>
+        </div>
+
+        <div class="form-card reveal" id="formCard">
+          <!-- 1. Basic Info -->
+          <h4 class="form-section-title"><i class="bi bi-info-circle me-2" style="color:var(--clr-primary);"></i>Basic Information</h4>
+          <div class="mb-3">
+            <label class="form-label">Recipe Title <span style="color:var(--clr-primary);">*</span></label>
+            <input type="text" id="fTitle" class="form-control" placeholder="e.g. Classic Spaghetti Carbonara" />
+            <div class="invalid-feedback" id="err-title">Please enter a recipe title.</div>
+          </div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label class="form-label">Category <span style="color:var(--clr-primary);">*</span></label>
+              <select id="fCat" class="form-select">
+                <option value="">Choose…</option>
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+                <option>Desserts</option>
+              </select>
+              <div class="invalid-feedback" id="err-cat">Please select a category.</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Cooking Time <span style="color:var(--clr-primary);">*</span></label>
+              <input type="text" id="fTime" class="form-control" placeholder="e.g. 30 min" />
+              <div class="invalid-feedback" id="err-time">Please enter cooking time.</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Servings <span style="color:var(--clr-primary);">*</span></label>
+              <input type="number" id="fServings" class="form-control" min="1" max="50" placeholder="e.g. 4" />
+              <div class="invalid-feedback" id="err-servings">Please enter servings (1–50).</div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">Short Description <span style="color:var(--clr-primary);">*</span></label>
+            <textarea id="fDesc" class="form-control" rows="3" placeholder="Briefly describe what makes this recipe special…"></textarea>
+            <div class="invalid-feedback" id="err-desc">Please add a description (at least 20 characters).</div>
+          </div>
+
+          <!-- 2. Image -->
+          <h4 class="form-section-title"><i class="bi bi-image me-2" style="color:var(--clr-primary);"></i>Recipe Image</h4>
+          <div class="mb-4">
+            <label class="form-label">Image URL</label>
+            <input type="url" id="fImg" class="form-control" placeholder="https://…" />
+            <small style="color:var(--clr-muted);font-size:.8rem;">Paste a public image URL (from Unsplash, etc.). Leave blank for a default image.</small>
+            <div id="imgPreviewWrap" style="display:none;margin-top:.8rem;">
+              <img id="imgPreview" src="" alt="Preview" style="width:100%;height:180px;object-fit:cover;border-radius:10px;border:1px solid var(--clr-border);" />
+            </div>
+          </div>
+
+          <!-- 3. Ingredients -->
+          <h4 class="form-section-title"><i class="bi bi-basket me-2" style="color:var(--clr-primary);"></i>Ingredients</h4>
+          <div class="mb-4">
+            <div class="tag-input-wrap mb-1">
+              <input type="text" id="ingInput" class="form-control" placeholder="e.g. 200g pasta" />
+              <button class="btn-yum" onclick="addIngredient()" type="button" style="white-space:nowrap;padding:.65rem 1.2rem;">Add</button>
+            </div>
+            <small style="color:var(--clr-muted);font-size:.8rem;">Press Add or Enter to add each ingredient.</small>
+            <div class="tags-list" id="ingList"></div>
+            <div class="invalid-feedback d-block" id="err-ing" style="display:none!important;"></div>
+          </div>
+
+          <!-- 4. Steps -->
+          <h4 class="form-section-title"><i class="bi bi-list-ol me-2" style="color:var(--clr-primary);"></i>Cooking Steps</h4>
+          <div id="stepsList" class="mb-2"></div>
+          <button class="btn-yum-outline" type="button" onclick="addStep()" style="font-size:.85rem;padding:.5rem 1.2rem;margin-bottom:1.5rem;">
+            <i class="bi bi-plus-circle me-1"></i> Add Step
+          </button>
+          <div class="invalid-feedback d-block" id="err-steps" style="display:none!important;"></div>
+
+          <!-- Submit -->
+          <div class="d-flex gap-3 flex-wrap mt-3">
+            <button class="btn-yum" type="button" onclick="submitRecipe()" style="padding:.75rem 2.5rem;">
+              <i class="bi bi-cloud-upload me-2"></i>Publish Recipe
+            </button>
+            <button class="btn-yum-outline" type="button" onclick="clearForm()">Clear Form</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips sidebar -->
+      <div class="col-lg-4">
+        <div class="tips-card reveal">
+          <h5 style="font-family:var(--font-display);margin-bottom:1.2rem;">✍️ Tips for a Great Recipe</h5>
+          <div class="tip-item"><i class="bi bi-check-circle-fill"></i><span>Use a clear, descriptive title so others can find your recipe easily.</span></div>
+          <div class="tip-item"><i class="bi bi-check-circle-fill"></i><span>List every ingredient with exact quantities and units.</span></div>
+          <div class="tip-item"><i class="bi bi-check-circle-fill"></i><span>Write steps in order — be specific about temperature and timing.</span></div>
+          <div class="tip-item"><i class="bi bi-check-circle-fill"></i><span>Use a high-quality image URL to make your recipe stand out.</span></div>
+          <div class="tip-item"><i class="bi bi-check-circle-fill"></i><span>Add a warm description — tell the story behind the dish!</span></div>
+          <hr style="border-color:rgba(230,126,34,.2);" />
+          <p style="font-size:.85rem;color:var(--clr-muted);">Your recipe will be immediately visible on the <a href="recipes.html" style="color:var(--clr-primary);font-weight:500;">Recipes page</a> after submission.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-brand mb-3">Yum<span>Book</span></div>
+        <p style="font-size:.9rem;">Your digital recipe diary.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Pages</h6>
+        <a href="index.html">Home</a><a href="recipes.html">Recipes</a><a href="categories.html">Categories</a><a href="add-recipe.html">Add Recipe</a><a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <hr />
+    <p class="footer-copy">&copy; 2026 YumBook · B.L.Chamodi Nadeesha · ASB/2023/163</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="main.js"></script>
+<script>
+  // ---- Ingredient Tags ----
+  let ingredients = [];
+
+  function addIngredient() {
+    const inp = document.getElementById('ingInput');
+    const val = inp.value.trim();
+    if (!val) return;
+    ingredients.push(val);
+    renderIngredients();
+    inp.value = '';
+    inp.focus();
+  }
+
+  document.getElementById('ingInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); addIngredient(); }
+  });
+
+  function removeIngredient(i) {
+    ingredients.splice(i, 1);
+    renderIngredients();
+  }
+
+  function renderIngredients() {
+    document.getElementById('ingList').innerHTML = ingredients.map((ing, i) =>
+      `<span class="tag-item">${ing} <button onclick="removeIngredient(${i})" type="button"><i class="bi bi-x"></i></button></span>`
+    ).join('');
+  }
+
+  // ---- Steps ----
+  let stepCount = 0;
+
+  function addStep() {
+    stepCount++;
+    const list = document.getElementById('stepsList');
+    const row = document.createElement('div');
+    row.className = 'step-row';
+    row.id = `step-row-${stepCount}`;
+    row.innerHTML = `
+      <div class="step-num-badge">${stepCount}</div>
+      <textarea class="form-control step-text" placeholder="Describe step ${stepCount}…"></textarea>
+      <button class="remove-btn" onclick="removeStep('step-row-${stepCount}')" type="button"><i class="bi bi-trash"></i></button>`;
+    list.appendChild(row);
+  }
+
+  function removeStep(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+    // Renumber
+    document.querySelectorAll('.step-num-badge').forEach((b, i) => b.textContent = i + 1);
+  }
+
+  // Add first step on load
+  document.addEventListener('DOMContentLoaded', () => { addStep(); });
+
+  // ---- Image Preview ----
+  document.getElementById('fImg').addEventListener('input', function() {
+    const url = this.value.trim();
+    const wrap = document.getElementById('imgPreviewWrap');
+    const preview = document.getElementById('imgPreview');
+    if (url) { preview.src = url; wrap.style.display = 'block'; }
+    else { wrap.style.display = 'none'; }
+  });
+
+  // ---- Validation helpers ----
+  function setError(fieldId, errId, show) {
+    const f = document.getElementById(fieldId);
+    const e = document.getElementById(errId);
+    if (show) { f.classList.add('is-invalid'); if(e) e.style.display = 'block'; }
+    else { f.classList.remove('is-invalid'); if(e) e.style.display = 'none'; }
+    return !show;
+  }
+
+  // ---- Submit ----
+  function submitRecipe() {
+    let valid = true;
+
+    // Title
+    const title = document.getElementById('fTitle').value.trim();
+    if (!setError('fTitle','err-title', title.length < 3)) valid = false;
+
+    // Category
+    const cat = document.getElementById('fCat').value;
+    if (!setError('fCat','err-cat', !cat)) valid = false;
+
+    // Time
+    const time = document.getElementById('fTime').value.trim();
+    if (!setError('fTime','err-time', !time)) valid = false;
+
+    // Servings
+    const srv = parseInt(document.getElementById('fServings').value);
+    if (!setError('fServings','err-servings', isNaN(srv) || srv < 1 || srv > 50)) valid = false;
+
+    // Description
+    const desc = document.getElementById('fDesc').value.trim();
+    if (!setError('fDesc','err-desc', desc.length < 20)) valid = false;
+
+    // Ingredients
+    const ingErr = document.getElementById('err-ing');
+    if (ingredients.length === 0) {
+      ingErr.textContent = 'Please add at least one ingredient.';
+      ingErr.style.display = 'block';
+      valid = false;
+    } else { ingErr.style.display = 'none'; }
+
+    // Steps
+    const steps = [...document.querySelectorAll('.step-text')].map(t => t.value.trim()).filter(Boolean);
+    const stepsErr = document.getElementById('err-steps');
+    if (steps.length === 0) {
+      stepsErr.textContent = 'Please add at least one cooking step.';
+      stepsErr.style.display = 'block';
+      valid = false;
+    } else { stepsErr.style.display = 'none'; }
+
+    if (!valid) { showToast('Please fix the errors above.', 'error'); return; }
+
+    // Save to localStorage
+    const stored = JSON.parse(localStorage.getItem('yumbook_recipes') || '[]');
+    const newId = Date.now();
+    const imgUrl = document.getElementById('fImg').value.trim() ||
+      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80';
+
+    stored.push({ id: newId, title, cat, time, servings: srv, img: imgUrl, desc, ingredients, steps });
+    localStorage.setItem('yumbook_recipes', JSON.stringify(stored));
+
+    // Show success
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('successBox').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function clearForm() {
+    ['fTitle','fTime','fServings','fDesc','fImg'].forEach(id => {
+      const el = document.getElementById(id);
+      el.value = '';
+      el.classList.remove('is-invalid');
+    });
+    document.getElementById('fCat').value = '';
+    ingredients = [];
+    renderIngredients();
+    document.getElementById('stepsList').innerHTML = '';
+    stepCount = 0;
+    addStep();
+    document.getElementById('imgPreviewWrap').style.display = 'none';
+    ['err-ing','err-steps'].forEach(id => document.getElementById(id).style.display = 'none');
+  }
+
+  function resetForm() {
+    document.getElementById('successBox').style.display = 'none';
+    document.getElementById('formCard').style.display = 'block';
+    clearForm();
+  }
+</script>
+</body>
+</html>
